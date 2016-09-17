@@ -1,0 +1,10 @@
+{"1.1.0",
+[{<<"cf">>,{pkg,<<"cf">>,<<"0.2.1">>},1},
+ {<<"erlware_commons">>,{pkg,<<"erlware_commons">>,<<"0.21.0">>},0},
+ {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0}]}.
+[
+{pkg_hash,[
+ {<<"cf">>, <<"69D0B1349FD4D7D4DC55B7F407D29D7A840BF9A1EF5AF529F1EBE0CE153FC2AB">>},
+ {<<"erlware_commons">>, <<"A04433071AD7D112EDEFC75AC77719DD3E6753E697AC09428FC83D7564B80B15">>},
+ {<<"jsx">>, <<"749BEC6D205C694AE1786D62CEA6CC45A390437E24835FD16D12D74F07097727">>}]}
+].
