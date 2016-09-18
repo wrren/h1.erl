@@ -13,7 +13,10 @@
 get( Endpoint, Params, Handle ) ->
 	request( h1:base_url( Handle ), Endpoint, Params, get, undefined, undefined, h1:auth( Handle ) ).
 
--spec get( [string()], h1:handle() ) -> { error, term() } | { ok, map() }.
+-spec get( binary() | [string()], h1:handle() ) -> { error, term() } | { ok, map() }.
+get( Url, Handle ) when is_binary( Url ) ->
+	request( get, { want:string( Url ), auth( h1:auth( Handle ), [] ) }, want:string( Url ) );
+
 get( Endpoint, Handle ) ->
 	request( h1:base_url( Handle ), Endpoint, [], get, undefined, undefined, h1:auth( Handle ) ).
 	
@@ -109,4 +112,4 @@ request( BaseURL, Endpoint, Params, Method, _Body, _ContentType, Auth ) when 	Me
 																		        Method =:= head 	orelse 
 																		        Method =:= options ->
 	Url = url( BaseURL, Endpoint, Params ),
-request( Method, { Url, auth( Auth, [] ) }, Url ).
+	request( Method, { Url, auth( Auth, [] ) }, Url ).

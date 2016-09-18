@@ -39,15 +39,26 @@ Handle = h1:init( "token_id", "token_key" ),    %% Initialize a handle for use i
 { ok, Report } = h1:report( 12345, Handle ),    %% Retrieve the report with the specified ID
 
 %% Find all reports created before September 16th, 2016 that have had a bounty awarded
-{ ok, CreatedBefore } = h1:reports( [{ created_before, "2016-09-16T00:00:00Z" }, { bounty_awarded, true }], Program, Handle ).
+{ ok, CreatedBefore } = h1:reports( [{ created_before, "2016-09-16T00:00:00Z" }, { bounty_awarded, true }], Program, Handle ),
 
 %% Using map syntax
 { ok, CreatedBefore } = h1:reports( #{  created_before => "2016-09-16T00:00:00Z", 
-                                        bounty_awarded => true }, Program, Handle ).
+                                        bounty_awarded => true }, Program, Handle ),
 
 %% Using calendar:datetime() type
 { ok, CreatedBefore } = h1:reports( #{  closed_before => calendar:universal_time(), 
-                                        bounty_awarded => true }, Program, Handle ).
+                                        bounty_awarded => true }, Program, Handle ),
+
+%% The reports() function returns a h1_page handle which can be used to traverse all pages in a result set
+{ ok, PageOne } h1:reports( #{  closed_before => calendar:universal_time(), 
+                                        bounty_awarded => true }, Program, Handle ),
+
+case h1_page:is_last( PageOne ) of
+    true    -> ok;  %% That was the first and only page
+    false   ->
+        { ok, PageTwo } = h1_page:next( PageOne ),  %% Get the next page
+        lager:info( "Reports on Page 2: ~p, [h1_page:reports( PageTwo ) ] ) %% Get the reports from the page results
+end
 
 %%     Available Filters:
 %%
