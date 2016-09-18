@@ -1,4 +1,4 @@
-h1
+h1 [![Build Status](https://travis-ci.org/wrren/h1.erl.svg?branch=master)](https://travis-ci.org/wrren/h1.erl)
 =====
 
 Library for simplifying interactions with the HackerOne API.
