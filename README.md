@@ -41,6 +41,14 @@ Handle = h1:init( "token_id", "token_key" ),    %% Initialize a handle for use i
 %% Find all reports created before September 16th, 2016 that have had a bounty awarded
 { ok, CreatedBefore } = h1:reports( [{ created_before, "2016-09-16T00:00:00Z" }, { bounty_awarded, true }], Program, Handle ).
 
+%% Using map syntax
+{ ok, CreatedBefore } = h1:reports( #{  created_before => "2016-09-16T00:00:00Z", 
+                                        bounty_awarded => true }, Program, Handle ).
+
+%% Using calendar:datetime() type
+{ ok, CreatedBefore } = h1:reports( #{  closed_before => calendar:universal_time(), 
+                                        bounty_awarded => true }, Program, Handle ).
+
 %%     Available Filters:
 %%
 %%     program ([string()] | string())
