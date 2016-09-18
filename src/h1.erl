@@ -126,6 +126,8 @@ filter_to_param( { Key, _ }, Value ) when is_binary( Value )            ->
     { lists:flatten( io_lib:format( "filter[~s]", [Key] ) ), binary_to_list( Value ) };
 filter_to_param( { Key, _ }, Value )                                    -> 
     { lists:flatten( io_lib:format( "filter[~s][]", [Key] ) ), want:string( Value ) };
+filter_to_param( { Key, list, _ }, [Value] ) when is_list( Value )      ->
+    { lists:flatten( io_lib:format( "filter[~s][]", [Key] ) ), Value };
 filter_to_param( { Key, list, _ }, Values ) when is_list( Values )      ->
     { lists:flatten( io_lib:format( "filter[~s][]", [Key] ) ), string:join( [ want:string( V ) || V <- Values ], "," ) }.
 
@@ -143,9 +145,9 @@ report( ID, Handle ) ->
 %%  @doc Search for all reports that match the given filters. Possible
 %%  filter keys and expected types:
 %%
-%%     program ([string()])
-%%     state ([string()])
-%%     id ([string()])
+%%     program ([string()] | string())
+%%     state ([string()] | string())
+%%     id ([string()] | string())
 %%     created_after (calendar:datetime() | string()) 
 %%     created_before (calendar:datetime() | string())
 %%     triaged_after (calendar:datetime() | string())

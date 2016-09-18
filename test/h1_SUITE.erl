@@ -13,8 +13,9 @@ report_test( Config ) ->
     { ok, _ } = h1:report( ct:get_config( h1_report_id ), ?config( handle, Config ) ).
 
 reports_test( Config ) ->
-    { ok, _ } = h1:reports( [{ bounty_awarded, true }, { created_before, "2016-09-17T07:05:58.602Z" }], [ct:get_config( h1_program )], ?config( handle, Config ) ),
+    { ok, _ } = h1:reports( [{ bounty_awarded, true }, { created_before, "2016-09-17T07:05:58.602Z" }], ct:get_config( h1_program ), ?config( handle, Config ) ),
     { ok, _ } = h1:reports( [{ bounty_awarded, true }, { created_before, calendar:universal_time() }], [ct:get_config( h1_program )], ?config( handle, Config ) ),
     { ok, _ } = h1:reports( [{ id, [ct:get_config( h1_report_id )] }], [ct:get_config( h1_program )], ?config( handle, Config ) ),
     { ok, _ } = h1:reports( [{ id, [ct:get_config( h1_report_id )] }, { program, [ct:get_config( h1_program )] }], ?config( handle, Config ) ),
+    { ok, _ } = h1:reports( [{ created_before, "2016-09-16T00:00:00Z" }, { bounty_awarded, true }], ct:get_config( h1_program ), ?config( handle, Config ) ),
     { error, missing_program_filter } = h1:reports( [{ id, [ct:get_config( h1_report_id )] }], ?config( handle, Config ) ).
