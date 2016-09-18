@@ -75,7 +75,7 @@ url( Url, Path, QueryParams ) ->
 	binary_to_list( iolist_to_binary( lists:droplast( lists:flatten( [ 	Url, 
 							[ [ $/, P ] || P <- Path ], 
 							$?, 
-[ [ K, $=, V, $& ] || { K, V } <- QueryParams ] ] ) ) ) ).
+[ [ url:encode( K ), $=, url:encode( V ), $& ] || { K, V } <- QueryParams ] ] ) ) ) ).
 
 %%
 %%	@doc Make a request to the HackerOne API
@@ -91,7 +91,7 @@ request( Method, Request, Url ) ->
 			{ ok, jsx:decode( Body, [ { labels, atom }, return_maps ] ) };
 		%% Some other status code
 		{ ok, { { _Version, Status, Reason }, _Headers, Body } } ->
-			{ error, { Status, Reason, Body } };
+			{ error, { Url, Status, Reason, Body } };
 		%% Request failed
 		{ error, Reason } -> 
 			{ error, Reason }

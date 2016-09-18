@@ -1,7 +1,15 @@
 {"1.1.0",
 [{<<"cf">>,{pkg,<<"cf">>,<<"0.2.1">>},1},
  {<<"erlware_commons">>,{pkg,<<"erlware_commons">>,<<"0.21.0">>},0},
- {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0}]}.
+ {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0},
+ {<<"url">>,
+  {git,"git://github.com/wrren/url.erl.git",
+       {ref,"5b06334e319da7df5cc52d9c3d54221e4f3156ac"}},
+  0},
+ {<<"want">>,
+  {git,"git://github.com/wrren/want.erl.git",
+       {ref,"2747b94a9e2f1ef4d7d4ca433e4801382566b28c"}},
+  1}]}.
 [
 {pkg_hash,[
  {<<"cf">>, <<"69D0B1349FD4D7D4DC55B7F407D29D7A840BF9A1EF5AF529F1EBE0CE153FC2AB">>},
