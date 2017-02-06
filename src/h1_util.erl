@@ -42,6 +42,8 @@
 -spec to_datetime( binary() ) -> datetime().
 to_datetime( <<"null">> ) -> 
     null;
+to_datetime( null ) -> 
+    null;
 to_datetime( DateTime ) when is_binary( DateTime ) -> 
     to_datetime( binary_to_list( DateTime ) );
 to_datetime( DateTime ) when is_list( DateTime ) -> 
@@ -51,16 +53,18 @@ to_datetime( DateTime ) when is_list( DateTime ) ->
     end;
 to_datetime( { Date, { H, M, S, _ } } ) -> { Date, { H, M, S } };
 to_datetime( DateTime = { { _, _, _ }, { _, _, _ } } ) -> DateTime.
+
 %%
 %%  @doc Traverse the given map and convert any keys matching those provided to calendar:datetime() terms
 %%
 -spec to_datetime( map(), [atom()] ) -> map().
 to_datetime( Map, Keys ) ->
     maps:from_list( lists:map( fun( { Key, Value } ) ->
-        case { lists:member( Key, Keys ), is_map( Value ) } of
-            { _, true } -> { Key, to_datetime( Value, Keys ) };
-            { true, _ } -> { Key, to_datetime( Value ) };
-            _           -> { Key, Value }
+        case { lists:member( Key, Keys ), is_map( Value ), is_list( Value ) } of
+            { _, true, _ }              -> { Key, to_datetime( Value, Keys ) };
+            { true, false, false }      -> { Key, to_datetime( Value ) };
+            { _, false, true }          -> { Key, [to_datetime( Item, Keys ) || Item <- Value] };
+            _                           -> { Key, Value }
         end
     end, maps:to_list( Map ) ) ).
 

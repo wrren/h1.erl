@@ -5,6 +5,17 @@
 -export( [init/2, init/3, report/2, reports/2, reports/3, base_url/1, auth/1] ).
 
 -define( DEFAULT_BASE_URL, "https://api.hackerone.com/v1/" ).
+-define( DATETIME_FIELDS, [
+    created_at, 
+    updated_at,
+    first_program_activity_at,
+    last_activity_at,
+    last_program_activity_at,
+    last_reporter_activity_at,
+    triaged_at,
+    closed_at,
+    disclosed_at
+]).
 
 %%
 %%  h1 handle
@@ -51,7 +62,7 @@ init( ID, Key, BaseURL ) ->
 -spec report( non_neg_integer(), handle() ) -> { ok, report_response() } | { error, term() }.
 report( ID, Handle ) -> 
     case h1_request:get( ["reports", integer_to_list( ID )], Handle ) of
-        { ok, Response }    -> { ok, h1_util:to_datetime( Response, [created_at, updated_at] ) };
+        { ok, Response }    -> { ok, h1_util:to_datetime( Response, ?DATETIME_FIELDS ) };
         { error, Reason }   -> { error, Reason }
     end.
 
@@ -99,7 +110,7 @@ reports( Filters, Handle ) ->
             { error, missing_program_filter };
         _ ->
             case h1_request:get( ["reports"], lists:map( fun h1_util:filter_to_param/1, Filters ), Handle ) of
-                { ok, Response }    -> { ok, h1_page:init( h1_util:to_datetime( Response, [created_at, updated_at] ), Handle ) };
+                { ok, Response }    -> { ok, h1_page:init( h1_util:to_datetime( Response, ?DATETIME_FIELDS ), Handle ) };
                 { error, Reason }   -> { error, Reason }
             end
     end.
