@@ -22,6 +22,10 @@ reports_test( Config ) ->
                                 bounty_awarded => true }, ct:get_config( h1_program ), ?config( handle, Config ) ),
     { ok, _ } = h1:reports( #{  closed_before => calendar:universal_time(), 
                                 bounty_awarded => true }, ct:get_config( h1_program ), ?config( handle, Config ) ),
+    { ok, _ } = h1:reports( #{  last_activity_after => "2015-09-16T00:00:00Z", 
+                                bounty_awarded => true }, ct:get_config( h1_program ), ?config( handle, Config ) ),
+    { ok, _ } = h1:reports( #{  last_activity_before => calendar:universal_time(), 
+                                bounty_awarded => true }, ct:get_config( h1_program ), ?config( handle, Config ) ),
     { error, missing_program_filter } = h1:reports( [{ id, [ct:get_config( h1_report_id )] }], ?config( handle, Config ) ).
 
 pagination_test( Config ) ->
