@@ -49,8 +49,8 @@ to_datetime( DateTime ) when is_list( DateTime ) ->
         0   -> to_datetime( ec_date:parse( DateTime ) );
         N   -> to_datetime( ec_date:parse( string:concat( string:substr( DateTime, 1, N - 1 ), "Z" ) ) )
     end;
-to_datetime( { Date, { H, M, S, _ } } ) -> { Date, { H, M, S } }.
-
+to_datetime( { Date, { H, M, S, _ } } ) -> { Date, { H, M, S } };
+to_datetime( DateTime = { { _, _, _ }, { _, _, _ } } ) -> DateTime.
 %%
 %%  @doc Traverse the given map and convert any keys matching those provided to calendar:datetime() terms
 %%
