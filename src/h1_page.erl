@@ -100,6 +100,6 @@ next( #page{ next = undefined } ) ->
     { error, last_page };
 next( #page{ next = Next, handle = Handle } ) ->
     case h1_request:get( Next, Handle ) of
-        { ok, Response }    -> { ok, init( h1_util:to_datetime( Response, [created_at, updated_at] ), Handle ) };
+        { ok, Response }    -> { ok, init( h1_util:to_datetime( Response, h1:datetime_fields() ), Handle ) };
         { error, Reason }   -> { error, Reason }
     end.

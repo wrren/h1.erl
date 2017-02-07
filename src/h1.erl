@@ -2,7 +2,7 @@
 -author( "Warren Kenny <warren.kenny@riotgames.com>" ).
 -include_lib( "h1/include/h1.hrl" ).
 
--export( [init/2, init/3, report/2, reports/2, reports/3, base_url/1, auth/1] ).
+-export( [init/2, init/3, report/2, reports/2, reports/3, base_url/1, auth/1, datetime_fields/0] ).
 
 -define( DEFAULT_BASE_URL, "https://api.hackerone.com/v1/" ).
 -define( DATETIME_FIELDS, [
@@ -26,7 +26,10 @@
 -type handle()  :: #handle{}.
 -export_type( [handle/0] ).
 
-
+%%
+%%  Get a list of the datetime field names expected from a report response
+%%
+datetime_fields() -> ?DATETIME_FIELDS.
 
 %%
 %%  @doc Get the API Base URL from the given handle
