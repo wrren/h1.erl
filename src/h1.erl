@@ -1,7 +1,6 @@
 -module( h1 ).
 -author( "Warren Kenny <warren.kenny@riotgames.com>" ).
 -include_lib( "h1/include/h1.hrl" ).
-
 -export( [init/2, init/3, report/2, reports/2, reports/3, base_url/1, auth/1, datetime_fields/0] ).
 
 -define( DEFAULT_BASE_URL, "https://api.hackerone.com/v1/" ).

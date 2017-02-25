@@ -5,7 +5,6 @@
 -module( h1_page ).
 -author( "Warren Kenny <warren.kenny@gmail.com>" ).
 -include_lib( "h1/include/h1.hrl" ).
-
 -ifdef( TEST ).
 -compile( export_all ).
 -endif.
