@@ -1,15 +1,26 @@
-{application, h1,
- [{description, "An OTP library"},
-  {vsn, "0.1.0"},
-  {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
-
-  {maintainers, []},
-  {licenses, []},
-  {links, []}
+{
+  application, h1,
+  [
+    { description, "Library that provides a simple interface to the HackerOne API" },
+    { vsn, "0.4.0" },
+    { registered, [] },
+    { applications,
+    [
+      kernel,
+      stdlib,
+      jsx,
+      erlware_commons,
+      url,
+      want
+    ]},
+    { env,[] },
+    { modules, [] },
+    { maintainers, ["Warren Kenny"] },
+    { licenses, [
+      "MIT"
+    ]},
+    { links, 
+    [
+      {"GitHub", "https://github.com/wrren/h1.erl"}
+    ]}
  ]}.

@@ -7,11 +7,11 @@
  {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0},
  {<<"url">>,
   {git,"git://github.com/wrren/url.erl.git",
-       {ref,"5b06334e319da7df5cc52d9c3d54221e4f3156ac"}},
+       {ref,"e3fad84e580c332733f5def7a71c869ea447b7b9"}},
   0},
  {<<"want">>,
   {git,"git://github.com/wrren/want.erl.git",
-       {ref,"13f9f5fd2c27dac12288203caa0be3772023be91"}},
+       {ref,"1e39765603500ca311291e74078dc37bbd797227"}},
   0}]}.
 [
 {pkg_hash,[
