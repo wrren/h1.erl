@@ -1,20 +1,14 @@
 {"1.1.0",
 [{<<"cf">>,{pkg,<<"cf">>,<<"0.2.2">>},1},
- {<<"erlware_commons">>,
-  {git,"git://github.com/wrren/erlware_commons.git",
-       {ref,"3ad087f8e020b521ed3d70c89b563cef464510fe"}},
-  0},
+ {<<"erlware_commons">>,{pkg,<<"erlware_commons">>,<<"1.0.0">>},0},
  {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0},
- {<<"url">>,
-  {git,"git://github.com/wrren/url.erl.git",
-       {ref,"e3fad84e580c332733f5def7a71c869ea447b7b9"}},
-  0},
- {<<"want">>,
-  {git,"git://github.com/wrren/want.erl.git",
-       {ref,"1e39765603500ca311291e74078dc37bbd797227"}},
-  0}]}.
+ {<<"url">>,{pkg,<<"url">>,<<"1.0.0">>},0},
+ {<<"want">>,{pkg,<<"want">>,<<"0.4.0">>},1}]}.
 [
 {pkg_hash,[
  {<<"cf">>, <<"7F2913FFF90ABCABD0F489896CFEB0B0674F6C8DF6C10B17A83175448029896C">>},
- {<<"jsx">>, <<"749BEC6D205C694AE1786D62CEA6CC45A390437E24835FD16D12D74F07097727">>}]}
+ {<<"erlware_commons">>, <<"087467DE5833C0BB5B3CCDD387F9E9C1FB816A75B7A709629BF24B5ED3246C51">>},
+ {<<"jsx">>, <<"749BEC6D205C694AE1786D62CEA6CC45A390437E24835FD16D12D74F07097727">>},
+ {<<"url">>, <<"52C6AE2156D82E8D51AB240559C063D12864BEDA2EE776E155F513B589A61D9E">>},
+ {<<"want">>, <<"FB7DBAD8F19A420CB692408EF56BEA670B4C31E8F9558DE9FE422250C1314C4C">>}]}
 ].

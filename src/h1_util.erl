@@ -63,7 +63,7 @@ to_datetime( Map, Keys ) ->
         case { lists:member( Key, Keys ), is_map( Value ), is_list( Value ) } of
             { _, true, _ }              -> { Key, to_datetime( Value, Keys ) };
             { true, false, false }      -> { Key, to_datetime( Value ) };
-            { _, false, true }          -> { Key, [to_datetime( Item, Keys ) || Item <- Value] };
+            { _, false, true }          -> { Key, [to_datetime( Item, Keys ) || Item <- Value, is_map(Item)] };
             _                           -> { Key, Value }
         end
     end, maps:to_list( Map ) ) ).
