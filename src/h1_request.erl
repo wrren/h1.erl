@@ -4,46 +4,47 @@
 
 -type request() :: httpc:request().
 -type param() 	:: { string(), string() }.
--type params() :: [param()].
+-type params() 	:: [param()].
+-type opts() 		:: h1:opts().
 
 %%
 %%	Perform an authenticated GET request against the specified API endpoint with the given query parameters.
 %%
 -spec get( [string()], [ { string(), string() } ], h1:handle() ) -> { error, term() } | { ok, map() }.
 get( Endpoint, Params, Handle ) ->
-	request( h1:base_url( Handle ), Endpoint, Params, get, undefined, undefined, h1:auth( Handle ) ).
+	request( h1:base_url( Handle ), Endpoint, Params, get, undefined, undefined, h1:auth( Handle ), h1:opts( Handle ) ).
 
 -spec get( binary() | [string()], h1:handle() ) -> { error, term() } | { ok, map() }.
 get( Url, Handle ) when is_binary( Url ) ->
-	request( get, { want:string( Url ), auth( h1:auth( Handle ), [] ) }, want:string( Url ) );
+	request( get, { want:string( Url ), auth( h1:auth( Handle ), [] ) }, want:string( Url ), h1:opts( Handle ) );
 
 get( Endpoint, Handle ) ->
-	request( h1:base_url( Handle ), Endpoint, [], get, undefined, undefined, h1:auth( Handle ) ).
+	request( h1:base_url( Handle ), Endpoint, [], get, undefined, undefined, h1:auth( Handle ), h1:opts( Handle ) ).
 	
 %%
 %%	Perform an authenticated DELETE request against the specified API endpoint with the given query parameters.
 %%
 -spec delete( [string()], [ { string(), string() } ], h1:handle() ) -> { error, term() } | { ok, map() }.
 delete( Endpoint, Params, Handle ) ->
-	request( h1:base_url( Handle ), Endpoint, Params, delete, undefined, undefined, h1:auth( Handle ) ).
+	request( h1:base_url( Handle ), Endpoint, Params, delete, undefined, undefined, h1:auth( Handle ), h1:opts( Handle ) ).
 
 -spec delete( [string()], h1:handle() ) -> { error, term() } | { ok, map() }.
 delete( Endpoint, Handle ) ->
-	request( h1:base_url( Handle ), Endpoint, [], delete, undefined, undefined, h1:auth( Handle ) ).
+	request( h1:base_url( Handle ), Endpoint, [], delete, undefined, undefined, h1:auth( Handle ), h1:opts( Handle ) ).
 
 %%
 %%	Perform a POST request to the specified API endpoint with the given query parameters and data.
 %%
 -spec post( [string()], [{ string(), string() }], term(), h1:handle() ) -> { error, term() } | { ok, map() }.
 post( Endpoint, Params, Data, Handle ) ->
-	request( h1:base_url( Handle ), Endpoint, Params, post, jsx:encode( Data ), "application/json", h1:auth( Handle ) ).
+	request( h1:base_url( Handle ), Endpoint, Params, post, jsx:encode( Data ), "application/json", h1:auth( Handle ), h1:opts( Handle ) ).
 	
 %%
 %%	Perform an authenticated POST request to the specified API endpoint sending the given data.
 %%
 -spec post( [string()], term(), h1:handle() ) -> { error, term() } | { ok, map() }.
 post( Endpoint, Data, Handle ) ->
-    request( h1:base_url( Handle ), Endpoint, [], post, jsx:encode( Data ), "application/json", h1:auth( Handle ) ).
+    request( h1:base_url( Handle ), Endpoint, [], post, jsx:encode( Data ), "application/json", h1:auth( Handle ), h1:opts( Handle ) ).
 
 %%
 %%	@doc Generate an authentication header for inclusion in a request based on the authentication method
@@ -83,15 +84,15 @@ url( Url, Path, QueryParams ) ->
 %%
 %%	@doc Make a request to the HackerOne API
 %%
--spec request( atom(), request(), string() ) -> { ok, term() } | { error, term() }.
-request( Method, Request, Url ) ->
+-spec request( atom(), request(), string(), opts() ) -> { ok, term() } | { error, term() }.
+request( Method, Request, Url, Opts ) ->
 	case httpc:request( Method, setelement( 1, Request, Url ), [], [{ body_format, binary }] ) of
 		%% Request completed with no content returned
 		{ ok, { { _Version, 204, _Reason }, _Headers, _Body } } ->
 			{ ok, no_content };
 		
 		{ ok, { { _Version, Status, _Reason }, _Headers, Body } } when Status >= 200 andalso Status < 300 ->
-			{ ok, jsx:decode( Body, [ { labels, atom }, return_maps ] ) };
+			{ ok, jsx:decode( Body, [ { labels, proplists:get_value(labels, Opts, atom) }, return_maps ] ) };
 		%% Some other status code
 		{ ok, { { _Version, Status, Reason }, _Headers, Body } } ->
 			{ error, { Url, Status, Reason, Body } };
@@ -100,16 +101,16 @@ request( Method, Request, Url ) ->
 			{ error, Reason }
 	end.
 
--spec request( string(), [string()], params(), atom(), term(), string(), h1:handle() ) -> { ok, term() } | { error, term() }.
-request( BaseURL, Endpoint, Params, Method, Body, ContentType, Auth ) when 		Method =:= post 	orelse 
+-spec request( string(), [string()], params(), atom(), term(), string(), h1:handle(), opts() ) -> { ok, term() } | { error, term() }.
+request( BaseURL, Endpoint, Params, Method, Body, ContentType, Auth, Opts ) when 		Method =:= post 	orelse 
 																			    Method =:= put 		orelse 
 																				Method =:= patch ->
 	Url = url( BaseURL, Endpoint, Params ),
-	request( Method, { Url, auth( Auth, [] ), ContentType, Body }, Url );
+	request( Method, { Url, auth( Auth, [] ), ContentType, Body }, Url, Opts );
 
-request( BaseURL, Endpoint, Params, Method, _Body, _ContentType, Auth ) when 	Method =:= get 		orelse 
+request( BaseURL, Endpoint, Params, Method, _Body, _ContentType, Auth, Opts ) when 	Method =:= get 		orelse 
 																		        Method =:= delete 	orelse 
 																		        Method =:= head 	orelse 
 																		        Method =:= options ->
 	Url = url( BaseURL, Endpoint, Params ),
-	request( Method, { Url, auth( Auth, [] ) }, Url ).
+	request( Method, { Url, auth( Auth, [] ) }, Url, Opts ).
