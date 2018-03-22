@@ -1,7 +1,7 @@
 -module( h1 ).
 -author( "Warren Kenny <warren.kenny@riotgames.com>" ).
 -include_lib( "h1/include/h1.hrl" ).
--export( [init/2, init/3, init/4, report/2, reports/2, reports/3, base_url/1, auth/1, opts/1, datetime_fields/0] ).
+-export( [init/2, init/3, report/2, reports/2, reports/3, base_url/1, auth/1, opts/1, datetime_fields/0] ).
 
 -define( DEFAULT_BASE_URL, "https://api.hackerone.com/v1/" ).
 -define( DATETIME_FIELDS, [
@@ -22,7 +22,6 @@
 %%  h1 handle
 %%
 -record( handle, {  auth :: anonymous | { oauth, Token :: string() } | { basic, Username :: string(), Password :: string() }, 
-                    base_url :: string(),
                     opts     :: opts() } ).
 
 -type handle()  :: #handle{}.
@@ -36,17 +35,17 @@ datetime_fields() -> ?DATETIME_FIELDS.
 %%
 %%  @doc Get the API Base URL from the given handle
 %%
-base_url( Handle )  -> Handle#handle.base_url.
+base_url( Handle ) -> proplists:get_value( base_url, Handle#handle.opts, ?DEFAULT_BASE_URL ).
 
 %%
 %%  @doc Get the authentication tuple from the given handle
 %%
-auth( Handle )  -> Handle#handle.auth.
+auth( Handle ) -> Handle#handle.auth.
 
 %%
 %%  @doc Get the options set for the given handle
 %%
-opts( Handle )  -> Handle#handle.opts.
+opts( Handle ) -> Handle#handle.opts.
 
 %%
 %%  @doc Initialize a new h1 handle. The h1 handle is used in all h1 functions that interact
@@ -54,7 +53,7 @@ opts( Handle )  -> Handle#handle.opts.
 %%
 -spec init( string(), string() ) -> handle().
 init( ID, Key ) ->
-    init( ID, Key, ?DEFAULT_BASE_URL ).
+    init( ID, Key, [{ base_url, ?DEFAULT_BASE_URL }] ).
 
 %%
 %%  @doc Initialize a new h1 handle. The h1 handle is used in all h1 functions that interact
@@ -62,22 +61,13 @@ init( ID, Key ) ->
 %%  well as an API base URL. The Base URL should only be provided if you're accessing a HackerOne API
 %%  from a server other than api.hackerone.com
 %%
--spec init( string(), string(), string() ) -> handle().
-init( ID, Key, BaseURL ) ->
-    #handle{ auth = { basic, ID, Key }, base_url = BaseURL, opts = [] }.
-
-%%
-%%  @doc Initialize a new h1 handle. The h1 handle is used in all h1 functions that interact
-%%  with the HackerOne API. Provide the Token ID and Key retrieved from your API settings page as 
-%%  well as an API base URL. The Base URL should only be provided if you're accessing a HackerOne API
-%%  from a server other than api.hackerone.com
-%%
-%%  Opts should be a keyword list of options used when processing requests to the HackerOne API
-%%
--spec init( string(), string(), string(), opts() ) -> handle().
-init( ID, Key, BaseURL, Opts ) ->
-    #handle{ auth = { basic, ID, Key }, base_url = BaseURL, opts = Opts }.
-
+-spec init( string(), string(), opts() ) -> handle().
+init( ID, Key, Opts ) ->
+    #handle{ 
+        auth = { basic, ID, Key }, 
+        opts = Opts 
+    }.
+    
 %%
 %%  @doc Get the report with the specified ID
 %%

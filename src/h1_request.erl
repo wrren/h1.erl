@@ -69,7 +69,7 @@ auth( { basic, Username, Password }, Headers ) ->
 url( Url, Path, QueryParams ) when is_list( Url ) ->
 	case lists:last( Url ) of
 		$/	-> 	url( lists:droplast( Url ), Path, QueryParams );
-		_	->	url( list_to_binary( Url ), Path, QueryParams )
+		_		->	url( list_to_binary( Url ), Path, QueryParams )
 	end;
 
 url( <<Url, $/>>, Path, QueryParams ) ->
@@ -108,9 +108,9 @@ request( BaseURL, Endpoint, Params, Method, Body, ContentType, Auth, Opts ) when
 	Url = url( BaseURL, Endpoint, Params ),
 	request( Method, { Url, auth( Auth, [] ), ContentType, Body }, Url, Opts );
 
-request( BaseURL, Endpoint, Params, Method, _Body, _ContentType, Auth, Opts ) when 	Method =:= get 		orelse 
-																		        Method =:= delete 	orelse 
-																		        Method =:= head 	orelse 
-																		        Method =:= options ->
+request( BaseURL, Endpoint, Params, Method, _Body, _ContentType, Auth, Opts ) when 	Method =:= get 			orelse 
+																																										Method =:= delete 	orelse 
+																																										Method =:= head 		orelse 
+																																										Method =:= options 	->
 	Url = url( BaseURL, Endpoint, Params ),
 	request( Method, { Url, auth( Auth, [] ) }, Url, Opts ).
