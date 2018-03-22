@@ -65,6 +65,24 @@ init( #{ data := Reports, links := #{} }, Handle ) ->
             count       = 1,
             is_last     = true,
             handle      = Handle,
+            reports     = Reports };
+
+init( #{ <<"data">> := Reports, <<"links">> := Links = #{ <<"self">> := _Self } }, Handle ) ->
+    #page{  self        = maps:get( <<"self">>, Links, undefined ),
+            next        = maps:get( <<"next">>, Links, undefined ),
+            number      = page_number( maps:get( <<"self">>, Links ) ),
+            count       = page_number( maps:get( <<"last">>, Links, <<"">> ) ),
+            is_last     = maps:is_key( <<"last">>, Links ) =:= false,
+            handle  = Handle,
+            reports = Reports };
+
+init( #{ <<"data">> := Reports, <<"links">> := #{} }, Handle ) ->
+    #page{  self        = undefined,
+            next        = undefined,
+            number      = 1,
+            count       = 1,
+            is_last     = true,
+            handle      = Handle,
             reports     = Reports }.
 
 %%
