@@ -2,7 +2,7 @@
   application, h1,
   [
     { description, "Library that provides a simple interface to the HackerOne API" },
-    { vsn, "2.0.1" },
+    { vsn, "2.1.1" },
     { registered, [] },
     { applications,
     [

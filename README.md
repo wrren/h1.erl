@@ -94,3 +94,10 @@ end
 
 ```
 
+Options
+===
+
+`h1:init` accepts an optional third parameter - a proplist containing options that can be used to control some behaviours of the library:
+
+* `{ labels, binary | atom | existing_atom | attempt_atom }` - Determines how JSX decodes JSON from responses. See [jsx](https://github.com/talentdeficit/jsx#decode12) for more information.
+* `{ convert_datetimes, true | false }` - Determines whether fields containing datetimes are converted into erlang calendar format.

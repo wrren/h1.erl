@@ -74,7 +74,7 @@ init( ID, Key, Opts ) ->
 -spec report( non_neg_integer(), handle() ) -> { ok, report_response() } | { error, term() }.
 report( ID, Handle ) -> 
     case h1_request:get( ["reports", integer_to_list( ID )], Handle ) of
-        { ok, Response }    -> { ok, h1_util:to_datetime( Response, ?DATETIME_FIELDS ) };
+        { ok, Response }    -> { ok, h1_util:transform( Response, opts( Handle ) ) };
         { error, Reason }   -> { error, Reason }
     end.
 
@@ -122,7 +122,7 @@ reports( Filters, Handle ) ->
             { error, missing_program_filter };
         _ ->
             case h1_request:get( ["reports"], lists:map( fun h1_util:filter_to_param/1, Filters ), Handle ) of
-                { ok, Response }    -> { ok, h1_page:init( h1_util:to_datetime( Response, ?DATETIME_FIELDS ), Handle ) };
+                { ok, Response }    -> { ok, h1_page:init( h1_util:transform( Response, opts( Handle ) ), Handle ) };
                 { error, Reason }   -> { error, Reason }
             end
     end.

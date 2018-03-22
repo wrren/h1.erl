@@ -2,7 +2,7 @@
 -author( "Warren Kenny <warren.kenny@gmail.com>" ).
 -include_lib( "h1/include/h1.hrl" ).
 
--export( [filter_to_param/1, to_datetime/1, to_datetime/2] ).
+-export( [transform/2, filter_to_param/1, to_datetime/1, to_datetime/2] ).
 
 -define( SEARCH_FILTERS, [
     { program, list,                        "program" },
@@ -35,6 +35,16 @@
     { bounty_awarded,                       "bounty_awarded_at__null" },
     { first_program_activity,               "first_program_activity_at__null" }
 ] ).
+
+%%
+%%  Apply any transforms described by the given options proplist to the H1 response
+%%
+-spec transform( map(), h1:opts() ) -> map().
+transform( Response, Opts ) ->
+    case proplists:get_value( convert_datetimes, Opts, true ) of
+        true    -> to_datetime( Response, h1:datetime_fields() );
+        _       -> Response
+    end.
 
 %%
 %%  @doc Convert a value representing an ISO8601 datetime with milliseconds to an erlang calendar:datetime() term.
