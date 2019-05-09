@@ -1,13 +1,13 @@
 {"1.1.0",
-[{<<"cf">>,{pkg,<<"cf">>,<<"0.2.2">>},1},
- {<<"erlware_commons">>,{pkg,<<"erlware_commons">>,<<"1.0.0">>},0},
+[{<<"cf">>,{pkg,<<"cf">>,<<"0.3.1">>},1},
+ {<<"erlware_commons">>,{pkg,<<"erlware_commons">>,<<"1.3.1">>},0},
  {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},0},
  {<<"url">>,{pkg,<<"url">>,<<"1.0.0">>},0},
  {<<"want">>,{pkg,<<"want">>,<<"0.4.0">>},1}]}.
 [
 {pkg_hash,[
- {<<"cf">>, <<"7F2913FFF90ABCABD0F489896CFEB0B0674F6C8DF6C10B17A83175448029896C">>},
- {<<"erlware_commons">>, <<"087467DE5833C0BB5B3CCDD387F9E9C1FB816A75B7A709629BF24B5ED3246C51">>},
+ {<<"cf">>, <<"5CB902239476E141EA70A740340233782D363A31EEA8AD37049561542E6CD641">>},
+ {<<"erlware_commons">>, <<"0CE192AD69BC6FD0880246D852D0ECE17631E234878011D1586E053641ED4C04">>},
  {<<"jsx">>, <<"749BEC6D205C694AE1786D62CEA6CC45A390437E24835FD16D12D74F07097727">>},
  {<<"url">>, <<"52C6AE2156D82E8D51AB240559C063D12864BEDA2EE776E155F513B589A61D9E">>},
  {<<"want">>, <<"FB7DBAD8F19A420CB692408EF56BEA670B4C31E8F9558DE9FE422250C1314C4C">>}]}
